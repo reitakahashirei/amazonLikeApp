@@ -44,3 +44,6 @@ Route::post('products/update/{id}', [ProductController::class, 'update']);
 Route::post('products/destroy/{id}', [ProductController::class, 'destroy']);
 
 Route::post('products/{id}/reviews', [ReviewController::class, 'store']);
+
+//お気に入り追加
+Route::get('products/{product}/favorite', [ProductController::class, 'favorite'])->name('products.favorite');

@@ -1,13 +1,39 @@
-@foreach($products as $product)
-    {{$product->name}}
-    {{$product->description}}
-    {{$product->price}}
-    <a href="{{route('products.show', $product)}}">Show</a>
-    <a href="{{route('products.edit', $product)}}">Edit</a>
-      <form action="/products/destroy/{{ $product->id }}" method="POST" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <button type="submit">Delete</button>
-      </form>
-@endforeach
+@extends('layouts.app')
 
-<a href="{{route('products.create')}}">New</a>
+@section('content')
+
+<div class="row">
+    <div class="col-2">
+      @component('components.sidebar', ['categories' => $categories, 'major_category_names' => $major_category_names])
+      @endcomponent
+    </div>
+    <div class="col-9">
+        <div class="container">
+            @if ($category !== null)
+              <a href="/">トップ</a> > <a href="#">{{ $category->major_category_name }}</a> > {{ $category->name }}
+              <h1>{{ $category->name }}の商品一覧{{$products->count()}}件</h1>
+            @endif
+        </div>
+        <div class="container mt-4">
+            <div class="row w-100">
+                @foreach($products as $product)
+                <div class="col-3">
+                    <a href="{{route('products.show', $product->id)}}">
+                        <img src="{{ asset('img/dummy.png')}}" class="img-thumbnail">
+                    </a>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="amazon-product-label mt-2">
+                                {{$product->name}}<br>
+                                <label>￥{{$product->price}}</label>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        {{ $products->links() }}
+    </div>
+</div>
+@endsection

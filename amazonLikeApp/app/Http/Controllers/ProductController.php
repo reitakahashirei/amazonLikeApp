@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -13,10 +14,29 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        if ($request->category !== null) {
+            $products = Product::where('category_id', $request->category)->paginate(15);
+            $category = Category::find($request->category);
+        } else {
+            $products = Product::paginate(15);
+            $category = null;
+        }
+        $categories = Category::all();
+        $major_category_names = Category::pluck('major_category_name')->unique();
+        return view('products.index', compact('products', 'category', 'categories', 'major_category_names'));
+    }
+
+    public function favorite(Product $product)
+    {
+        $user = Auth::user();
+        if ($user->hasFavorited($product)) {
+            $user->unfavorite($product);
+        } else {
+            $user->favorite($product);
+        }
+        return redirect()->route('products.show', $product);
     }
 
     /**
@@ -56,9 +76,8 @@ class ProductController extends Controller
     public function show(Request $request, int $id)
     {
         $product = product::find($id);
-        //$reviews = $product->reviews()->get();
-        //return view('products.show', compact('product', 'reviews'));
-        return view('products.show', compact('product'));
+        $reviews = $product->reviews()->get();
+        return view('products.show', compact('product', 'reviews'));
     }
 
     /**
