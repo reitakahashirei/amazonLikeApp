@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light shadow-sm amazon-header-container">
     <a class="navbar-brand" href="{{ url('/') }}">
-        {{ config('app.name', 'Laravel') }}
+        <img src="{{asset('img/logo.jpg')}}">
     </a>
     <form class="form-inline">
         <div class="form-group">
@@ -33,15 +33,11 @@
                 <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-shopping-cart"></i></a>
             </li>
             @else
-            <li class="nav-item mr-5">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    ログアウト
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </li>
+                <li class="nav-item mr-5">
+                    <a class="nav-link" href="{{ route('mypage') }}">
+                        <i class="fas fa-user mr-1"></i><label>マイページ</label>
+                    </a>
+                </li>
             @endguest
         </ul>
     </div>

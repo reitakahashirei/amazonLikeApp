@@ -9,14 +9,14 @@
         </div>
         <div class="col">
             <div class="d-flex flex-column">
-                <h1 class="">
+                <h1 class="mb-2">
                     {{$product->name}}
                 </h1>
-                <p class="">
+                <p class="mb-3">
                     {{$product->description}}
                 </p>
                 <hr>
-                <p class="d-flex align-items-end">
+                <p class="d-flex align-items-end my-2">
                     ￥{{$product->price}}(税込)
                 </p>
                 <hr>
@@ -36,7 +36,7 @@
                 <input type="hidden" name="weight" value="0">
                 <div class="row">
                     <div class="col-7">
-                        <button type="submit" class="btn amazon-submit-button w-100">
+                        <button type="submit" class="btn btn-success amazon-submit-button w-100">
                             <i class="fas fa-shopping-cart"></i>
                             カートに追加
                         </button>
@@ -59,7 +59,7 @@
             @endauth
         </div>
 
-        <div class="offset-1 col-11">
+        <div class="offset-1 col-11 mt-3">
             <hr class="w-100">
             <h3 class="float-left">カスタマーレビュー</h3>
         </div>
@@ -80,7 +80,7 @@
               <form method="POST" action="/products/{{ $product->id }}/reviews">
                 {{ csrf_field() }}
                 <textarea name="content" class="form-control m-2"></textarea>
-                <button type="submit" class="btn amazon-submit-button ml-2">レビューを追加</button>
+                <button type="submit" class="btn btn-success amazon-submit-button ml-2">レビューを追加</button>
               </form>
             </div>
           </div>
